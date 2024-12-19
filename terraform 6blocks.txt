@@ -1,0 +1,161 @@
+apt update -y
+apt install unzip -y
+
+To install aws cli
+---------------------------
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws -- version  (to check whether aws cli install or not)
+
+
+To install terraform cli
+------------------------------
+wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
+terraform --version (to check whether terraform cli install or not)
+
+
+Need to configure aws account for that
+aws configure 
+It will ask acces key and secret access key ( Get it from IAM)
+region : 
+format (table
+----------------------------------------------------
+vi terraform.tf
+insert data in terraform.tf
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+------------------------------------------------------------
+vi provider.tf
+insert data in provider.tf
+provider "aws" {
+profile = "default"
+region = "us-east-2"
+}
+-----------------------------------------------------------------------
+vi resource.tf
+insert data in resource.tf
+# Create EC2 Instance - Amazon Linux
+resource "aws_instance" "killer-31" {
+  ami           = data.aws_ami.killer31amzlinux.id
+  instance_type = var.ec2_instance_type
+  key_name      = "vcube"
+	user_data = file("lucky.sh")  
+  vpc_security_group_ids = [aws_security_group.killerssh-sg.id, aws_security_group.killerhttp-sg.id]
+  tags = {
+    "Name" = "killer-31"
+  }
+}
+---------------------------------------------------------------------------
+vi datasource.tf
+insert data in datasource.tf
+# Get latest AMI ID for Amazon Linux2 OS
+data "aws_ami" "killer31amzlinux" {
+  most_recent = true
+  owners = [ "amazon" ]
+  filter {
+    name = "name"
+    values = [ "amzn2-ami-hvm-*-gp2" ]
+  }
+  filter {
+    name = "root-device-type"
+    values = [ "ebs" ]
+  }
+  filter {
+    name = "virtualization-type"
+    values = [ "hvm" ]
+  }
+  filter {
+    name = "architecture"
+    values = [ "x86_64" ]
+  }
+}
+----------------------------------------------------------------------
+vi lucky.sh
+#! /bin/bash
+sudo yum update -y
+sudo yum install -y httpd
+sudo systemctl enable httpd
+sudo service httpd start  
+echo "<h1> hello everyone ! Never dream for success work for it</h1>" | sudo tee /var/www/html/index.html
+-----------------------------------------------------------------------------------------------------------------
+vi securitygroup.tf
+# Create Security Group - SSH Traffic
+resource "aws_security_group" "killerssh-sg" {
+  name        = "killerssh-sg"
+  description = "ssh"
+  ingress {
+    description = "Allow Port 22"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    description = "Allow all ip and ports outboun"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# Create Security Group - Web Traffic
+resource "aws_security_group" "killerhttp-sg" {
+  name        = "killerhttp-sg"
+  description = "http"
+  ingress {
+    description = "Allow Port 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "Allow Port 443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    description = "Allow all ip and ports outbound"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+----------------------------------------------------------
+vi var.tf
+variable "ec2_instance_type" {
+  type = string
+  default = "t3.micro"
+}
+------------------------------------------------------------
+vi output.tf
+output "ec2_instance_publicip" {
+  value = aws_instance.killer-31.public_ip
+}
+-------------------------------------------
+terraform init
+terraform validate
+terraform plan
+terraform apply
+terraform destroy
+
+
+
+
+
+
+
+

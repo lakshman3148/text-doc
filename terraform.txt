@@ -1,0 +1,89 @@
+ apt update -y
+apt install unzip -y
+
+To install aws cli
+---------------------------
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws -- version  (to check whether aws cli install or not)
+
+
+To install terraform cli
+------------------------------
+wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
+terraform --version (to check whether terraform cli install or not)
+
+
+Need to configure aws account for that
+aws configure 
+It will ask acces key and secret access key ( Get it from IAM)
+region : 
+format (table)
+ls -a
+cd .aws
+ls
+vi credentials
+cd
+----------------------------------------------------------------------
+vi terraform.tf
+insert data in terraform.tf
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+-------------------------------------------------------------------------
+vi provider.tf
+insert data in provider.tf
+provider "aws" {
+profile = "default"
+region = "us-east-2"
+}
+------------------------------------------------------------------------------------
+vi resource.tf
+insert data in resource.tf
+resource "aws_instance" "killer" {
+    ami = "ami-012967cc5a8c9f891"
+    instance_type = "t2.micro"
+    key_name = "vcube"
+    tags = {
+      name = "terraform"
+    }
+  }
+
+
+terraform init  (to intialize terraform)
+terraform validate
+terraform plan
+
+
+Now i have terraform.tf , provider.tf , resource.tf
+now im createing a dirrectory to move all this to .tf files to directory
+mkdir vcube
+mv terraform.tf vcube
+mv provider.tf vcube
+mv resource.tf vcube
+
+terraform init  (to intialize terraform)
+terraform validate
+terraform plan
+terraform apply
+
+now we will get terraform.tfstate  (in audit we learn that it will maintain the records and create .tfstate file)
+
+terraform --help (commands)
+  fmt = reformat in standard style
+  refresh = update the state to match remote systems
+
+terraform destory
+
+
+
+
+

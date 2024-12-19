@@ -1,0 +1,45 @@
+resource "aws_vpc" "vcube130" {
+  cidr_block = "10.0.0.0/16"
+}
+resource "aws_subnet" "subnet-1" {
+  vpc_id     = aws_vpc.vcube130.id
+  availability_zone = "us-east-1a"
+  cidr_block = "10.0.0.0/24"
+}
+resource "aws_subnet" "subnet-2" {
+  vpc_id     = aws_vpc.vcube130.id
+  availability_zone = "us-east-1b"
+  cidr_block = "10.0.1.0/24"
+}
+resource "aws_internet_gateway" "vcube-igw" {
+  vpc_id = aws_vpc.vcube130.id
+}
+resource "aws_route_table" "test-RT" {
+  vpc_id = aws_vpc.vcube130.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.vcube-igw.id
+  }
+}
+resource "aws_route_table_association" "ass" {
+  subnet_id      = aws_subnet.subnet-1.id
+  route_table_id = aws_route_table.test-RT.id
+}
+resource "aws_security_group" "test-sg" {
+  name   = "test-sg"
+  vpc_id = aws_vpc.vcube130.id
+
+  ingress = [22]
+  egress  = [22]
+}
+resource "aws_instance" "test-server" {
+    ami = "ami-012967cc5a8c9f891"
+    instance_type = "t2.micro"
+    key_name = "vcube"
+    subnet_id = "aws_subnet.subnet-1"
+    availability_zone = "us-east-1a"
+    security_groups = aws_security_group.test-sg
+    tags = {
+      name = "killer"
+    }
+  }
