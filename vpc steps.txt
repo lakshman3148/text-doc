@@ -1,0 +1,27 @@
+1. create vpc  (my-vpc)
+2. create 2 subnets (public and private subnets)
+3. create internet gateway and attach to our vpc
+4. crate routetable  (do subnet association and edit routes) 
+5. create ec2 instance with our vpc and public subnet (it will connect to server)
+6. create ec2 instance with our vpc and private subnet (it doesn't connect to the server)
+7. create natgateway and attcahe to private routetable
+
+
+
+CIDR (Classless inter domain routing) 
+range i.e., range of IP addresses we required. We can give CIDR Range as 0.0.0.0.0/n
+Here n = netmask ranges between 16 to 32.
+0 = 1 octet, each octet has 8 bits and can hold 0 to 255 IP4
+Here I gave CIDR range 10.0.0.0/24 
+
+N = 32 -24 = 8
+2^8 = 256 IP4 i.e., 0 to 255 IP4
+
+Here AWS Reserves first 4 and last IP4
+
+10.0.0.0 – Network address
+10.0.0.1 – Reserved by AWS for the VPC router
+10.0.0.2 – Reserved by AWS, the IP address of DNS
+10.0.0.3 – Reserved by AWS for future use
+10.0.0.255 – Network broadcast address. As broadcast not supported in a VPC therefore the address is reserved.
+

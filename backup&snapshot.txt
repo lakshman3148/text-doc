@@ -1,0 +1,12 @@
+open aws backup
+create backup
+protected backup
+create on-demand backup
+resource type (rds)  datbase name (vcube-dv)
+backup window  (customize)
+ iam role  (default)
+  
+Go to rds
+creare snapshot
+snapshot type  (db cluster)
+snapshot name

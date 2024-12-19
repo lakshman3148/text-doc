@@ -1,0 +1,42 @@
+craete two vpc 
+create subnet (public and private)
+create internet gateway
+create routetables (public and private)
+create ec2 instance using vpc1  (default vpc)
+create ec2 instance using vpc2  (own vpc)
+
+
+connect server(default vpc) to gitbash 
+yum install update
+yum install nginx
+cd /usr/share/nginx/html
+rm index.html
+vi index.html (create file to insert data)
+cd
+systemctl status nginx
+systemctl restart nginx
+curl (private ip:80)  To get response
+
+connect server(own vpc) to gitbash
+sudo apt-get upadte
+sudo apt-get install apache2
+cd /var/www/html
+rm index.html
+vi index.html (create file to insert data)
+cd ..
+systemctl status apache2
+systemctl restart apache2
+curl (private ip:80)  To get response
+
+now peering comes into the picture 
+craete peering connection (requestor and acceptor) 
+copy ipv4 cidr of two vpc's
+      172.31.0.0/16 (default)
+      10.0.0.0/24 (custom)
+edit routes in routetable for public we need to give default vpc ipv4 and for default we need to give our vpc ipv4
+
+
+
+
+
+

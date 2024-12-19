@@ -1,0 +1,50 @@
+open rds console
+click on datebase to create datebase
+select standard
+select my sql
+hide filters  - select first one
+template  - production
+Availability and durability   - multi-AZ DB cluster
+credential - admin  (for password (selfmanaged))
+selcet connect to ec2 instance
+
+
+
+create ec2 instance
+connect to gitbash
+apt update -y
+sudo apt install mysql-server
+sudo systemctl start mysql.service
+mysql -h (copy DB endpoint) -u admin -p
+password -custom password
+
+
+show databases;
+CREATE DATABASE employee;
+show datebases;
+use employee;
+
+create table employee(
+ role VARCHAR(20) NOT NULL,
+ salary INT NOT NULL,
+ domain VARCHAR(30) DEFAULT "DEVOPS",
+ company VARCHAR(40) NOT NULL,
+primary key (role)
+);
+
+show tables;
+describe employee;
+
+INSERT INTO employee VALUE("devops engineer", 30000.00, "Devops", "Vcube");
+
+SELECT * FROM employee;
+
+INSERT INTO employee VALUE("cloud engineer", 30000.00, "AWS", "Vcube");
+
+
+
+
+
+
+
+

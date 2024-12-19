@@ -1,0 +1,34 @@
+A load blancer distributes incoming application traffic across multiple ec2 instances in multiple available zones
+
+create two ec2 instances in diffrent available zones
+
+connect server(availablity zone-1a) to gitbash 
+yum install update
+yum install nginx
+cd /usr/share/nginx/html
+rm index.html
+vi index.html (create file to insert data)
+cd
+systemctl status nginx
+systemctl restart nginx
+
+connect server(availablity zone-1b) to gitbash
+sudo apt-get upadte
+sudo apt-get install apache2
+cd /var/www/html
+rm index.html
+vi index.html (create file to insert data)
+cd ..
+systemctl status apache2
+systemctl restart apache2
+
+create target group (Target groups are used to direct traffic from a load balancer to a specific destination)
+
+Register targets (select running instance)
+click on include as pending (otherwise loadbalancer wont work)
+
+create load balancer
+click on application load balancer
+select instance available zones
+select our security group and targetgroup
+copy dns name and search 

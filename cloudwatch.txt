@@ -1,0 +1,7 @@
+open sns and create topic and subscription
+create alarm
+metrix (ec2)
+instance name
+apt-get update
+apt-get install stress
+stress --cpu 10 -v --timeout 400s

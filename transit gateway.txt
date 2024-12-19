@@ -1,0 +1,42 @@
+create 3 vpc with different ipv4 cidr range (vpc and more)
+create transit gateway
+creare transit gateway attachment (attach vpc A)
+creare transit gateway attachment (attach vpc B)
+creare transit gateway attachment (attach vpc c)
+copy vpc's IPv4cidr
+Edit routes in 3 vpc's
+ vpc A routetable attach vpc c&b transit gateway
+ vpc B routetable attach vpc c&a transit gateway
+ vpc C routetable attach vpc a&b transit gateway
+
+create ec2 instance using vpc a
+yum install update
+yum install nginx
+cd /usr/share/nginx/html
+rm index.html
+cd
+systemctl status nginx
+systemctl restart nginx
+
+create ec2 instance using vpc b
+sudo apt-get upadte
+sudo apt-get install apache2
+/var/www/html
+rm index.html
+vi index.html
+cd ..
+systemctl status apache2
+systemctl restart apache2
+
+create ec2 instance using vpc c
+yum install update
+yum install nginx
+cd /usr/share/nginx/html
+rm index.html
+cd
+systemctl status nginx
+systemctl restart nginx
+
+
+
+  

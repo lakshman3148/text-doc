@@ -1,0 +1,227 @@
+                               s3( simple storage Service)
+
+-----------
+1) Versioning
+2) Static  website hsoting
+3) classes/ tiers
+4) Cross region replication
+5) Transfer Accelaration
+6) encryption
+7) ACL
+8) Bucket policies
+9) Life cycle management
+10) multi part upload 
+
+-> s3 is used for storage purpose 
+-> s3 is object based storage 
+-> we can storage flat files in s3 
+-> we can upload, download and acces files from s3 
+-> we can't execute s3 files
+-> we can't install any s/w in s3 
+-> s3 providing unlimited storage 
+-> we can't attach s3 to ec2 instance 
+-> we can access s3 objects in ec2 
+-> s3 supports static web hosting 
+-> s3 is serverless
+-> In s3 we will store data in buckets
+-> Bucket is a container
+-> Bucket contains objects (obj=file)
+key is calle as name of the object
+->
+s3 is global but buckets are regional 
+s3 bucket name should be unique 
+note :Always create bucket name with company name or project name
+
+=> we can't create one bucket inside another bucket
+=> we can create multipule buckets in multipule regions
+=> max we can create 100 buckets in s3 
+=> By default buckets are private, if required we make it as public
+=> Every bucket will have its own url/endpoint
+
+NOTE: s3 bucket fallows worm model
+            Write once read many 
+
+=> Amazon s3 is scalable, highly avilable, Durable and secured service
+
+
+NOTE: Highly Avilable => 24 * 7 avilable
+Durable = long time
+
+=> using amazon s3 we can store any amount of data from anywhere
+
+1) In s3 we will screate buckets 
+2) in buclkets we will store the data in the form of objects 
+3) one bucket can contain any no.of objs
+
+min obj size = o Bytes
+MAx obj size = 5 TB
+
+-> We can Have unlimited no .of objects of with 5 tb in one bucket
+-> In single put max we can upload in 5 GB
+-> If we want to upload bigger file then we should go for mpu (multi part upload)
+          (Break the bigger file into smaller chunks and upload it)
+
+
+Versioning 
+------------
+=> Versioning is used to differentiate old new 
+=> By USING versioning we can track the changes
+
+ex: java 1.8 , java 9, java10, java 11
+
+=> when we update any application/software then it will be released into market with 
+new version number
+
+             (we will keep old version for backup purpose) 
+
+
+Amazon s3 Bucket alsohaving Versioning Concept
+-------------------------------------------------
+-> By Default Versioning is not enable in s3, we have to enable manually
+-> versioning we will enable at bucket level then it will aply at object available in the bucket
+-> once we enable versioning then we can't disable it . We can only suspend that.
+-> Every version will have unique id 
+-> We can download version files at anytime
+-> when we delete original object, then it will create 'delete marker' on latest version
+-> to re-store our object, we have to delete  'delete marker on latest version
+
+----------------------------------------------------------------------------------------
+EXAMPLE
+customer-1 wants to store data and want to access data verey frequently(dailyaccess)
+customer-2  wants to store data and wants to access data rarely (Monthly once)
+customer -3 wants to store historical data 
+
+=> Above 3 customers having 3 different requirements. to meet business requirements aws provide storage classes for s3
+
+
+Storage classes
+----------------
+
+Standard Frequently Access (FA)
+Standard In-frequently access (IA)
+Reduced redundancy storage(RRS)
+ONE ZONE IA
+interlligent tiering
+Glacier
+
+Standard Frequently Access (FA)
+------------------------------
+->Used for frequently access data
+-> This is default storage class
+-> it is used for regular purpose
+(websites, photos, audios, videos etc)
+
+-> No retrieval charges
+Avilability = 99.99%
+Durability = 11 9's 
+
+Standard InFrequently Access (FA)
+---------------------------------
+-> Used for in-frequently data access
+-> Cheaper than FA
+-> Retrieval charges apply 
+
+ Avilability = 99.99%
+Durability = 11 9's 
+
+Min obj Size = 128 kb
+Min Duration = 30 Days
+
+
+Reduced redundancy storage(RRS)
+-----------------------------
+-> Frequently access but not critical
+-> No retrival charges
+-> AWS don't recommend this 
+-> Cheaper that others
+
+Avilability = 99.99%
+Durability = Durability = 11 9's 
+
+ONE ZONE IA
+-------------
+-> IN-Frequent Access but not critical
+-> Retrieval Charges apply 
+vilability = 99.99%
+Durability = Durability = 11 9's 
+Min obj Size = 128 kb
+Min Duration = 30 Days
+
+interlligent tiering
+-> Unknown access pattern
+-> Based on access it will move from FA to IA
+vilability = 99.99%
+Durability = Durability = 11 9's 
+
+Glacier
+------
+-> Infrequently access data
+-> Archiving purpose
+
+
+Note: We can move the object from one storage to another storage class using life cycle management concept.
+
+---------------------------------
+CRR: Cross Region Replication
+SRR: Same Region Replication
+--------------------------------
+
+-> we need to create CRR rules for Cross Region Replication
+-> The movement we create CRR rules from then CRR replication will happen 
+-> Versioning ismandatory for CRR
+
+ENCRYPTION
+----------
+-> Encryption is used to secure our data
+-> Encryption means conversting data from readable format to un-readable format 
+-> Encryption can be done in 2 ways
+
+NOTE:
+
+In-Transit: Encryption while data is moving/flowing (HTTPS)
+Data at Rest : Encryption for existing data
+
+-> Amazon s3 having 3 types of Encryptions
+1) server side Encryption (AWS is responsible for this)
+2) Client side Encryption (Client is responsible for this)
+3) In-Transit Encryption (While data moving - HTTPS)
+------------------------------------------------------------
+Note: When we upload any object into s3 bucket the new url/endpoint will be generated for the bucket
+ex: https://bucket:name.domainname:objectname
+
+Note: we can configure 'pre-sin=gned-url' for objects in s3. Pre-Signed-URL used for Limited Access (URL will be vaild for limited time)
+-----------------------------------------------------------------------------------------------------------------------------------------
+-> WHAT is aws s3 
+-> what is bucket
+-> what is object 
+-> what is object endpoint
+-> what is versioning 
+-> what is delete marker
+-> How to re-store original file
+-> what are the storage classes
+-> life cycle manager
+-> CRR & SRR
+-> Encryption 
+-> Transfer Accelerator
+-> pre-signed URL
+-> Scalability vs Avilability vs Durability 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
